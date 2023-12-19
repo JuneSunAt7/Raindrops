@@ -117,7 +117,7 @@ func AutoSendFiles(conn net.Conn) {
 		fname := strings.Replace(lines[j], "\\", "/", -1)
 		reserveSend(conn, fname)
 		if j > 10 {
-			time.Sleep(time.Millisecond * 350)
+			time.Sleep(time.Millisecond * 30)
 		}
 	}
 }

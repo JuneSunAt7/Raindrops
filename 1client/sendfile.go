@@ -69,8 +69,28 @@ func sendFile(conn net.Conn, fname string) {
 }
 
 func reserveSend(conn net.Conn, fname string) {
+
 	file := filepath.Base(filepath.Clean(fname))
 
+	dir, err := os.Open(fname)
+	if err != nil {
+
+		return
+	}
+	defer dir.Close()
+
+	// Получаем список файлов и папок
+	files, err := dir.Readdir(-1)
+	if err != nil {
+
+		return
+	}
+	for _, file := range files {
+		if file.IsDir() {
+			dirs(file.Name())
+			pterm.Info.Println("Контенеризация папки ", file.Name())
+		}
+	}
 	content, err := os.ReadFile(fname)
 	if err != nil {
 		pterm.Error.Println("Ошибка при загрузке файла " + file)
