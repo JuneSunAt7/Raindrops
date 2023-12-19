@@ -1,0 +1,27 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+<<<<<<< HEAD
+=======
+*.pdf
+>>>>>>> d587b47 (rebase struct)
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Sertificates for tls
+<<<<<<< HEAD
+serts/
+=======
+filestore/
+>>>>>>> d587b47 (rebase struct)
+
+info.log
+
+
