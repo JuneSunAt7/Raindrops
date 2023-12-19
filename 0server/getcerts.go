@@ -92,10 +92,10 @@ func CheckUserCert(uname string) bool {
 
 	if _, err := os.Stat(certUserPath); err != nil {
 		if os.IsNotExist(err) {
-			pterm.Error.Println(err)
+			pterm.Error.Println("Сертификат не найден")
 			return false
 		} else {
-			pterm.Error.Println(err)
+			pterm.Error.Println("Сертификат не найден")
 			return false
 		}
 	} else {

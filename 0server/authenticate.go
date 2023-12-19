@@ -2,8 +2,6 @@ package server
 
 import (
 	"bufio"
-	"crypto/md5"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"io"
@@ -11,6 +9,7 @@ import (
 	"os"
 
 	"github.com/JuneSunAt7/netMg/logger"
+	"github.com/pterm/pterm"
 )
 
 type Credentials struct {
@@ -47,8 +46,8 @@ func AuthenticateClient(conn net.Conn) error {
 	if err != nil {
 		return err
 	}
-	logger.Println(len(*creds))
 	if len(*creds) == 0 {
+		pterm.Error.Println("Нет ни одного зарегистрированного пользователя")
 		return errors.New("Нет ни одного зарегистрированного пользователя: ")
 	}
 	reader := bufio.NewScanner(conn)
@@ -70,11 +69,8 @@ func AuthenticateClient(conn net.Conn) error {
 
 		passwd := reader.Text()
 
-		hash := md5.Sum([]byte(passwd))
-		strPasswd := hex.EncodeToString(hash[:])
-
 		for _, cred := range *creds {
-			if cred.Username == uname && cred.Password == strPasswd {
+			if cred.Username == uname && cred.Password == passwd {
 				logger.Println("Новое подключение ", uname)
 				conn.Write([]byte("1"))
 				return nil

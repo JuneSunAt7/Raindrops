@@ -51,7 +51,7 @@ func AuthenticateClient(conn net.Conn) error {
 	UNAME = uname
 	pterm.FgLightBlue.Println("...Поиск сертификата...")
 	if getUserCert(conn, uname) {
-		pterm.FgGreen.Println("Сертификат найден!")
+		pterm.Success.Println("Сертификат найден!")
 		return nil
 	} else {
 
