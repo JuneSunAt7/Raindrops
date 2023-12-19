@@ -1,6 +1,8 @@
 package servermgmt
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -43,6 +45,9 @@ func AddUser() {
 	uname, _ := pterm.DefaultInteractiveTextInput.Show("Имя")
 	passwd, _ := pterm.DefaultInteractiveTextInput.WithMask("*").Show("Пароль")
 
+	hash := md5.Sum([]byte(passwd))
+	trPasswd := hex.EncodeToString(hash[:])
+
 	filename := "user_creds.db"
 	file, err := os.ReadFile(filename)
 	if err != nil {
@@ -55,7 +60,7 @@ func AddUser() {
 
 	newStruct := &MyStruct{
 		UserName: uname,
-		PassWord: passwd,
+		PassWord: trPasswd,
 	}
 
 	data = append(data, *newStruct)

@@ -2,6 +2,8 @@ package server
 
 import (
 	"bufio"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"io"
@@ -47,7 +49,7 @@ func AuthenticateClient(conn net.Conn) error {
 	}
 	logger.Println(len(*creds))
 	if len(*creds) == 0 {
-		return errors.New("no credentials: ")
+		return errors.New("Нет ни одного зарегистрированного пользователя: ")
 	}
 	reader := bufio.NewScanner(conn)
 
@@ -58,7 +60,7 @@ func AuthenticateClient(conn net.Conn) error {
 	Uname = uname
 
 	if CheckUserCert(Uname) {
-		logger.Println("Server:Client", uname, "Validated")
+		logger.Println("Новое подключение", uname, "проверен")
 		conn.Write([]byte("1"))
 		return nil
 	} else {
@@ -67,9 +69,13 @@ func AuthenticateClient(conn net.Conn) error {
 		reader.Scan()
 
 		passwd := reader.Text()
+
+		hash := md5.Sum([]byte(passwd))
+		strPasswd := hex.EncodeToString(hash[:])
+
 		for _, cred := range *creds {
-			if cred.Username == uname && cred.Password == passwd {
-				logger.Println("Server:Client ", uname, " Correct ", "passwd ", passwd)
+			if cred.Username == uname && cred.Password == strPasswd {
+				logger.Println("Новое подключение ", uname)
 				conn.Write([]byte("1"))
 				return nil
 			}

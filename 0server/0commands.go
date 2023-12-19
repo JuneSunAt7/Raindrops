@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/JuneSunAt7/netMg/logger"
+	"github.com/pterm/pterm"
 )
 
 var ROOT = "filestore"
@@ -21,10 +22,11 @@ func init() {
 func HandleServer(conn net.Conn) {
 	defer conn.Close()
 
-	conn.Write([]byte("Server:Connection Established"))
+	conn.Write([]byte("Успешное подключение к RainDrops!"))
 
 	if err := AuthenticateClient(conn); err != nil {
-		logger.Println(err.Error())
+		pterm.Error.Println(err.Error())
+
 		return
 	}
 
@@ -38,26 +40,29 @@ func HandleServer(conn net.Conn) {
 		switch strings.ToLower(commandArr[0]) {
 
 		case "download":
-			logger.Println("Download Request")
+			logger.Println("Скачивание с облака")
 			sendFile(conn, commandArr[1])
 
 		case "upload":
-			logger.Println("Upload Request")
+			logger.Println("Загрузка в облако")
 			getFile(conn, commandArr[1], commandArr[2])
 		case "ls":
-			logger.Println("ls")
+			logger.Println("Просмотр файлов")
 			getListFiles(conn)
 		case "certs":
-			logger.Println("certs")
+			logger.Println("Сертификация")
 			getListCert(conn)
 		case "create":
-			logger.Println("create cert")
+			logger.Println("Создание сертификата")
 			dataCert(conn)
 		case "getkey":
-			logger.Println("Upload file with cert")
+			logger.Println("Получение ключа")
 			sendKey(conn)
+		case "reserv":
+			pterm.Success.Println("Резервное копирование")
+			reserveFile(conn, commandArr[1], commandArr[2])
 		case "close":
-			logger.Println("closed")
+			pterm.Warning.Println("Закрытие соединения")
 			return
 		}
 	}
