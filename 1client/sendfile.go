@@ -19,6 +19,7 @@ func sendFile(conn net.Conn, fname string) {
 	// That function use module crypto aka AES & MD5 hasing.
 	//The server must make sure that the file is encrypted without errors.
 	file := filepath.Base(filepath.Clean(fname))
+	normalFilename := strings.Replace(file, " ", "_", -1)
 
 	content, err := os.ReadFile(fname)
 	if err != nil {
@@ -32,7 +33,7 @@ func sendFile(conn net.Conn, fname string) {
 		pterm.Error.Println("Ошибка при загрузке файла")
 		return
 	}
-	conn.Write([]byte(fmt.Sprintf("upload %s %d\n", file, len(arrEnc))))
+	conn.Write([]byte(fmt.Sprintf("upload %s %d\n", normalFilename, len(arrEnc))))
 
 	buf := make([]byte, 1024)
 	n, err := conn.Read(buf)
