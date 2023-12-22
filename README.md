@@ -1,5 +1,5 @@
 <h1 allign=center> Репозиторий исходного кода системы RainDrops</h1>
-
+<img src = "https://github.com/JuneSunAt7/netMg/assets/63651740/96a8d720-268d-4f14-a0de-2b0244550ec7" </img>
 <h2>RainDrops - инновационная облачная платформа с усиленной защитой данных.
 Простота, минимализм, но при этом многофункциональность - это всё про систему RainDrops.
 Отличительная черта этой системы заключается в индивидуальном подходе к безопасности,
@@ -9,10 +9,16 @@
 Таким образом, вам не нужно задумываться об утечке данных и об оплате системы.</h2>
 
 <h3 allign=right><img src="https://media.giphy.com/media/dEvfJaOEzxl9AUSzHP/giphy.gif" width="100px"/>Состав комплекса:</h3>
-<h4>RD's air - клиентское приложение</h4>
-<h4>RD's air server - сервер, главное хранилище данных </h4>
+<h4 style="color:#5adc1e">RD's air - клиентское приложение</h4>
+<img src ="https://github.com/JuneSunAt7/Raindrops/assets/63651740/d9cc00b4-3184-4f85-a4f3-4e4e0031806d"/>
+
+<h4 style="color:#5adc1e">RD's air server - сервер, главное хранилище данных </h4>
+<img src ="https://github.com/JuneSunAt7/Raindrops/assets/63651740/59c30536-4fe6-4866-917f-339a53d50245"/>
+
+
 <h4>RD's air admin - администрирование и настройка сервера, сети и политик безопасности </h4>
-<img src = "https://github.com/JuneSunAt7/netMg/assets/63651740/96a8d720-268d-4f14-a0de-2b0244550ec7" </img>
+<img src ="https://github.com/JuneSunAt7/Raindrops/assets/63651740/3d905877-5415-4e76-bd45-76a8b3179ff0"/>
+
 <h3>Функциональность:</h3>
 
 <h4>RD's air</h4>
