@@ -10,6 +10,8 @@
 
 <h3 allign=right><img src="https://media.giphy.com/media/dEvfJaOEzxl9AUSzHP/giphy.gif" width="100px"/>Состав комплекса:</h3>
 <h4>RD's air - клиентское приложение</h4>
+<img src ="https://github.com/JuneSunAt7/Raindrops/assets/63651740/d9cc00b4-3184-4f85-a4f3-4e4e0031806d"/>
+
 <h4>RD's air server - сервер, главное хранилище данных </h4>
 <h4>RD's air admin - администрирование и настройка сервера, сети и политик безопасности </h4>
 <img src = "https://github.com/JuneSunAt7/netMg/assets/63651740/96a8d720-268d-4f14-a0de-2b0244550ec7" </img>
