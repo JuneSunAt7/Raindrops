@@ -183,23 +183,21 @@ func Containers() {
 	pterm.Success.Println("Успешная контейнеризация!")
 
 }
-func dirs(folderPath string) {
-	
+func dirs(folderPath string) string {
+	// check dirs about consist folders. if folder in path we create container and send container to server
 	folderName := filepath.Base(folderPath)
 
-	// Создаем новый zip архив для записи
+	var containerPath string
+
 	zipFile, err := os.Create(folderName + ".rdct")
 	if err != nil {
-		fmt.Println(err)
-		return
+		pterm.Error.Println("Ошибка контейнеризации")
 	}
 	defer zipFile.Close()
 
-	// Создаем новый zip писатель
 	zipWriter := zip.NewWriter(zipFile)
 	defer zipWriter.Close()
 
-	// Рекурсивно обходим все файлы и подпапки в указанной папке
 	err = filepath.Walk(folderPath, func(filePath string, fileInfo os.FileInfo, err error) error {
 		p, _ := pterm.DefaultProgressbar.WithTotal(10).WithTitle("...Создание контейнера...").Start()
 
@@ -213,40 +211,34 @@ func dirs(folderPath string) {
 			return err
 		}
 
-		// Игнорируем директории
+		// ignore dirs
 		if fileInfo.IsDir() {
 			return nil
 		}
 
-		// Относительный путь файла внутри папки
+		// abs path for file
 		relativePath := strings.TrimPrefix(filePath, folderPath)
 
-		// Создаем заголовок файла в архиве
 		header, err := zip.FileInfoHeader(fileInfo)
 		if err != nil {
 			return err
 		}
 
-		// Устанавливаем имя файла в архиве
+		// filename in container
 		header.Name = relativePath
 
-		// Устанавливаем метод сжатия
 		header.Method = zip.Deflate
 
-		// Создаем запись в архиве
 		writer, err := zipWriter.CreateHeader(header)
 		if err != nil {
 			return err
 		}
-
-		// Открываем существующий файл для чтения
 		file, err := os.Open(filePath)
 		if err != nil {
 			return err
 		}
 		defer file.Close()
 
-		// Копируем содержимое файла в запись архива
 		_, err = io.Copy(writer, file)
 		if err != nil {
 			return err
@@ -254,12 +246,7 @@ func dirs(folderPath string) {
 
 		return nil
 	})
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
+	containerPath = folderName + ".rdct"
 	pterm.Success.Println("Успешная контейнеризация!")
-
+	return containerPath
 }

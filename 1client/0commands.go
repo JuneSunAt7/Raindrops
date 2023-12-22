@@ -98,7 +98,7 @@ func Autoreserved() {
 }
 
 func AutoSendFiles(conn net.Conn) {
-	//TODO #17 add check to dir(containerize) or file(default)
+
 	file, err := os.Open(ROOT + "/" + "localSettings" + "/" + "path.ini")
 	if err != nil {
 		pterm.FgRed.Println("Файлы для резервирования не найдены!")
@@ -115,7 +115,13 @@ func AutoSendFiles(conn net.Conn) {
 	for j := 0; j < len(lines); j++ {
 
 		fname := strings.Replace(lines[j], "\\", "/", -1)
+		lastChar := fname[len(fname)-1]
+		if string(lastChar) == "/"{// wow if it isnt directory??
+			dirname := dirs(fname)
+			reserveSend(conn, dirname)
+		}else{
 		reserveSend(conn, fname)
+		}
 		if j > 10 {
 			time.Sleep(time.Millisecond * 30)
 		}
