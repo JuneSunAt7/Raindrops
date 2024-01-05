@@ -146,6 +146,7 @@ func getPlugin(conn net.Conn, plugin string){
 	plugPath = append(plugPath,  plugin)
 	AddPlugin(plugPath)
 }
+
 func RunPlugin(){
 	filePath := "plugins/plugins.ini"
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"atomicgo.dev/keyboard/keys"
-	mgmt "github.com/JuneSunAt7/netMg/server_mgmt"
+	mgmt "github.com/JuneSunAt7/Raindrops/server_mgmt"
 	"github.com/pterm/pterm"
 )
 
