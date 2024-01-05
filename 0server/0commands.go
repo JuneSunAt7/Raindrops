@@ -66,6 +66,9 @@ func HandleServer(conn net.Conn) {
 		case "pluginshop":
 			logger.Println("Подключение к магазину плагинов")
 			searchplugins(conn)
+		case "getplugin":
+			logger.Println("Получение плагина")
+			sendPlugin(conn,commandArr[1])
 		case "close":
 			pterm.Warning.Println("Закрытие соединения")
 			return

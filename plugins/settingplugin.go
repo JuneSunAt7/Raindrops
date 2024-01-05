@@ -10,7 +10,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"atomicgo.dev/keyboard/keys"
-
+	"io"
+	"bytes"
+	"strconv"
+	"time"
 )
 // Interface for plugins
 type Plugin interface {
@@ -77,7 +80,7 @@ func AddPlugin(pluginsPath[] string) {
 	}
 	defer outputFile.Close()
 	outputFile.WriteString(strings.Join(pluginsPath, "\n"))
-	pterm.Success.Printfln("Успешно добавлены плагины\n %s", pluginsPath)
+	pterm.BgLightYellow.Printfln("Успешно добавлены плагины:\n %s", pluginsPath)
 }
 
 func SearchPluginsInServer(conn net.Conn){
@@ -103,9 +106,45 @@ func SearchPluginsInServer(conn net.Conn){
 		if selectedOptions == "Назад"{
 			return
 		}
-		conn.Write([]byte())
-		pterm.Info.Println(selectedOptions)
+		getPlugin(conn, selectedOptions)
+		
 	}
+}
+func getPlugin(conn net.Conn, plugin string){
+	conn.Write([]byte(fmt.Sprintf("getplugin %s\n",plugin)))
+	buffer := make([]byte, 1024)
+	n, _ := conn.Read(buffer)
+	comStr := strings.Trim(string(buffer[:n]), "\n")
+	commandArr := strings.Fields(comStr)
+
+	fileSize, err := strconv.ParseInt(commandArr[2], 10, 64)
+	if err != nil || fileSize == -1 {
+		pterm.Error.Println("Ошибка при скачивании плагина")
+		conn.Write([]byte("file size error"))
+		return
+	}
+	conn.Write([]byte("200 Start download!"))
+	var arrDec []byte
+
+	outputFile, err := os.Create("plugins/"+ plugin)
+	if err != nil {
+		pterm.Error.Println("Ошибка при скачивании плагина")
+		
+	}
+	io.Copy(outputFile, bytes.NewReader(arrDec))
+	defer outputFile.Close()
+	p, _ := pterm.DefaultProgressbar.WithTotal(3).WithTitle("...Скачивание плагина...").Start()
+
+	for i := 0; i < p.Total; i++ {
+		p.UpdateTitle("Загрузка из магазина") // ProgressBar - downloader
+		p.Increment()
+		time.Sleep(time.Millisecond * 350)
+		
+	}
+	pterm.Success.Println("Успешная загрузка плагина!")
+	var plugPath []string
+	plugPath = append(plugPath,  plugin)
+	AddPlugin(plugPath)
 }
 func RunPlugin(){
 	filePath := "plugins/plugins.ini"
