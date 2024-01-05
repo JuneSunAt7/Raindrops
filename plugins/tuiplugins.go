@@ -22,12 +22,11 @@ func TuiPugins(){
 		selectedOptions, _ := pterm.DefaultInteractiveSelect.WithOptions(options).Show()
 		switch selectedOptions {
 		case "Доступные плагины":
-
-	
+			ReadLoacalPlugins()
 		case "Запустить плагин":
-	
+			
 		case "Магазин плагинов":
-	
+			
 		case "Найти на этом компьютере плагины":
 			currentDir := masterdir.ChooseDir()
 			CheckPlugins(currentDir, ".so")

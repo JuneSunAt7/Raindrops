@@ -7,16 +7,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/JuneSunAt7/netMg/logger"
+	"github.com/JuneSunAt7/Raindrops/logger"
 	"github.com/pterm/pterm"
 )
 
 var ROOT = "filestore"
 var CERT = "certificates"
+var PLUGS = "pluginshop"
 
 func init() {
 	ROOT, _ = filepath.Abs("filestore") // Main directory for users files
 	CERT, _ = filepath.Abs("certificates")
+	PLUGS, _ = filepath.Abs("pluginshop")// dir with shop plugins
 }
 
 func HandleServer(conn net.Conn) {
@@ -61,6 +63,9 @@ func HandleServer(conn net.Conn) {
 		case "reserv":
 			pterm.Success.Println("Резервное копирование")
 			reserveFile(conn, commandArr[1], commandArr[2])
+		case "plugin shop":
+			logger.Println("Подключение к магазину плагинов")
+			searchplugins(conn)
 		case "close":
 			pterm.Warning.Println("Закрытие соединения")
 			return

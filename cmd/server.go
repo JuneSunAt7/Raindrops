@@ -7,8 +7,8 @@ import (
 	"net"
 	"time"
 
-	server "github.com/JuneSunAt7/netMg/0server"
-	"github.com/JuneSunAt7/netMg/logger"
+	server "github.com/JuneSunAt7/Raindrops/0server"
+	"github.com/JuneSunAt7/Raindrops/logger"
 )
 
 const (

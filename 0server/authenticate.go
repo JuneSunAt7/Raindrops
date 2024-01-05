@@ -8,7 +8,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/JuneSunAt7/netMg/logger"
+	"github.com/JuneSunAt7/Raindrops/logger"
 	"github.com/pterm/pterm"
 )
 

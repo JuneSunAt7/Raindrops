@@ -6,12 +6,16 @@ import (
 	"plugin"
 	"strings"
 	"github.com/pterm/pterm"
+	"net"
+
 )
 // Interface for plugins
 type Plugin interface {
 	Run()
 }
-
+func ReadLoacalPlugins(){
+	CheckPlugins("plugins", ".so")
+}
 func CheckPlugins(root, ext string) ([]string, error) {
 	var files []string
 
@@ -28,6 +32,11 @@ func CheckPlugins(root, ext string) ([]string, error) {
 	})
 	if err != nil {
 		return nil, err
+	}
+	if len(files) == 0{
+		pterm.Warning.Printfln("В папке %s нет подходящих плагинов", root)
+	}else{
+		AddPlugin(files)
 	}
 	return files, nil
 }
@@ -65,4 +74,9 @@ func AddPlugin(pluginsPath[] string) {
 	}
 	defer outputFile.Close()
 	outputFile.WriteString(strings.Join(pluginsPath, "\n"))
+	pterm.Success.Printfln("Успешно добавлены плагины\n %s", pluginsPath)
+}
+func SearchPluginsInServer(conn net.Conn){
+	conn.Write([]byte("plugin shop"))
+	
 }
