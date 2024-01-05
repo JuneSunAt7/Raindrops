@@ -10,7 +10,8 @@ import (
 	"atomicgo.dev/keyboard/keys"
 	"github.com/pterm/pterm"
 
-	client "github.com/JuneSunAt7/netMg/1client"
+	client "github.com/JuneSunAt7/Raindrops/1client"
+	plugins "github.com/JuneSunAt7/Raindrops/plugins"
 )
 
 const (
@@ -70,6 +71,7 @@ func Run() (err error) {
 	options = append(options, fmt.Sprintf("Конфигурация"))
 	options = append(options, fmt.Sprintf("Сертификаты и пароли"))
 	options = append(options, fmt.Sprintf("Авторезервирование"))
+	options = append(options, fmt.Sprintf("Плагины"))
 	options = append(options, fmt.Sprintf("Выход"))
 
 	printer := pterm.DefaultInteractiveMultiselect.WithOptions(options)
@@ -93,6 +95,8 @@ func Run() (err error) {
 			client.CertPasswd(connect)
 		case "Авторезервирование":
 			client.Autoreserved()
+		case "Плагины":
+			plugins.TuiPugins()
 		case "Выход":
 			client.Exit(connect)
 			return
