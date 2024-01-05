@@ -4,9 +4,11 @@ import(
 	"atomicgo.dev/keyboard/keys"
 	"github.com/pterm/pterm"
 	"fmt"
+	"net"
 	masterdir "github.com/JuneSunAt7/Raindrops/1client"
+	
 )
-func TuiPugins(){
+func TuiPugins(conn net.Conn){
 	var options []string
 
 	options = append(options, fmt.Sprintf("Доступные плагины"))
@@ -24,9 +26,9 @@ func TuiPugins(){
 		case "Доступные плагины":
 			ReadLoacalPlugins()
 		case "Запустить плагин":
-			
+			RunPlugin()
 		case "Магазин плагинов":
-			
+			SearchPluginsInServer(conn)
 		case "Найти на этом компьютере плагины":
 			currentDir := masterdir.ChooseDir()
 			CheckPlugins(currentDir, ".so")

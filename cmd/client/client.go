@@ -96,7 +96,7 @@ func Run() (err error) {
 		case "Авторезервирование":
 			client.Autoreserved()
 		case "Плагины":
-			plugins.TuiPugins()
+			plugins.TuiPugins(connect)
 		case "Выход":
 			client.Exit(connect)
 			return

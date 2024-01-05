@@ -7,6 +7,9 @@ import (
 	"strings"
 	"github.com/pterm/pterm"
 	"net"
+	"fmt"
+	"io/ioutil"
+	"atomicgo.dev/keyboard/keys"
 
 )
 // Interface for plugins
@@ -76,6 +79,7 @@ func AddPlugin(pluginsPath[] string) {
 	outputFile.WriteString(strings.Join(pluginsPath, "\n"))
 	pterm.Success.Printfln("Успешно добавлены плагины\n %s", pluginsPath)
 }
+
 func SearchPluginsInServer(conn net.Conn){
 	conn.Write([]byte("pluginshop\n"))
 	buffer := make([]byte, 4096)
@@ -99,28 +103,25 @@ func SearchPluginsInServer(conn net.Conn){
 		if selectedOptions == "Назад"{
 			return
 		}
+		conn.Write([]byte())
 		pterm.Info.Println(selectedOptions)
 	}
 }
 func RunPlugin(){
-	filePath := "file.txt"
+	filePath := "plugins/plugins.ini"
 
     
     content, err := ioutil.ReadFile(filePath)
     if err != nil {
-        fmt.Println("Ошибка чтения файла:", err)
+		pterm.Error.Println("Ошибка запуска, не обнаружено ни одного плагина.\nСкачайте их из магазина или найдите на компьютере")
         return
     }
-
-    // Разделение содержимого на строки
     lines := strings.Split(string(content), "\n")
 
-    // Создание массива
-    var arr []string
 
-  
+    var arr []string
     for _, line := range lines {
         arr = append(arr, line)
     }
-
+	InitPlugins(arr)
 }

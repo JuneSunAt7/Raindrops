@@ -63,7 +63,7 @@ func HandleServer(conn net.Conn) {
 		case "reserv":
 			pterm.Success.Println("Резервное копирование")
 			reserveFile(conn, commandArr[1], commandArr[2])
-		case "plugin shop":
+		case "pluginshop":
 			logger.Println("Подключение к магазину плагинов")
 			searchplugins(conn)
 		case "close":
