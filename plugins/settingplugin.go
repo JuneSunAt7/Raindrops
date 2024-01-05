@@ -77,6 +77,50 @@ func AddPlugin(pluginsPath[] string) {
 	pterm.Success.Printfln("Успешно добавлены плагины\n %s", pluginsPath)
 }
 func SearchPluginsInServer(conn net.Conn){
-	conn.Write([]byte("plugin shop"))
-	
+	conn.Write([]byte("pluginshop\n"))
+	buffer := make([]byte, 4096)
+	n, _ := conn.Read(buffer)
+
+	pterm.BgLightMagenta.Println("Магазин плагинов")
+	plugins := strings.Split(string(buffer[:n]), "\n")
+
+	var options []string
+
+	for i := 0; i < len(plugins); i++ {
+		options = append(options,fmt.Sprintf(plugins[i]))
+	}
+	options = append(options, fmt.Sprintf("Назад"))
+
+	printer := pterm.DefaultInteractiveMultiselect.WithOptions(options)
+	printer.Filter = false
+	printer.KeyConfirm = keys.Enter
+	for {
+		selectedOptions, _ := pterm.DefaultInteractiveSelect.WithOptions(options).Show()
+		if selectedOptions == "Назад"{
+			return
+		}
+		pterm.Info.Println(selectedOptions)
+	}
+}
+func RunPlugin(){
+	filePath := "file.txt"
+
+    
+    content, err := ioutil.ReadFile(filePath)
+    if err != nil {
+        fmt.Println("Ошибка чтения файла:", err)
+        return
+    }
+
+    // Разделение содержимого на строки
+    lines := strings.Split(string(content), "\n")
+
+    // Создание массива
+    var arr []string
+
+  
+    for _, line := range lines {
+        arr = append(arr, line)
+    }
+
 }
