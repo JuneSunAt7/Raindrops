@@ -11,10 +11,14 @@ require (
 )
 
 require (
+	github.com/go-exec/exec v1.1.4 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/nsf/termbox-go v0.0.0-20190121233118-02980233997d // indirect
+	github.com/pkg/errors v0.8.1 // indirect
+	github.com/satori/go.uuid v1.2.0 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 )
 
 require (
