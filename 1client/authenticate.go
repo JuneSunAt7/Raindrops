@@ -40,6 +40,7 @@ func AuthenticateClient(conn net.Conn) error {
 	buffer := make([]byte, 1024)
 	n, err := conn.Read(buffer)
 	if err != nil {
+		pterm.Warning.Println("Не удалось связаться с системой\nИзмените конфигурационный файл или попробуйте снова")
 		return err
 	}
 	pterm.DefaultBasicText.WithStyle(pterm.NewStyle(pterm.FgLightGreen)).Println(string(buffer[:n]))

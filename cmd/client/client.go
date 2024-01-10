@@ -37,6 +37,8 @@ func Run() (err error) {
 
 		connect, err = net.Dial("tcp", HOST+":"+PORT)
 		if err != nil {
+			pterm.Warning.Println("Не удалось связаться с системой\nИзмените конфигурационный файл или попробуйте снова")
+			client.Configure()
 			return err
 		}
 
@@ -55,6 +57,7 @@ func Run() (err error) {
 	defer connect.Close()
 
 	if err := client.AuthenticateClient(connect); err != nil {
+
 		return err
 	}
 	if client.Compare() {
