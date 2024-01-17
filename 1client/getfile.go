@@ -44,7 +44,7 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 		return
 	}
 
-	outputFile, err := os.Create(fname)
+	outputFile, err := os.Create(ChooseDir() + file)
 	if err != nil {
 		log.Println(err)
 	}
