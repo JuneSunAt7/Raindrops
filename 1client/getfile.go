@@ -53,7 +53,7 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 	p, _ := pterm.DefaultProgressbar.WithTotal(5).WithTitle("...Скачивание файла...").Start()
 
 	for i := 0; i < p.Total; i++ {
-		p.UpdateTitle("Выгрузка из облака") // ProgressBar - downloader
+		p.UpdateTitle("Выгрузка из облака") 
 		p.Increment()
 		time.Sleep(time.Millisecond * 350)
 	}
