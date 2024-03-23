@@ -12,6 +12,7 @@ import (
 	"github.com/pterm/pterm"
 )
 
+
 type Credentials struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -40,6 +41,8 @@ func GetCred() (*CredArr, error) {
 
 	return &creds, nil
 }
+
+
 func AuthenticateClient(conn net.Conn) error {
 
 	creds, err := GetCred()
