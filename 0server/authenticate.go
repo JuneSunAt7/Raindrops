@@ -79,6 +79,7 @@ func AuthenticateClient(conn net.Conn) error {
     }
 
     conn.Write([]byte("0"))
+	StartSSLServer("127.0.0.1", "443")
     return nil
 }
 
