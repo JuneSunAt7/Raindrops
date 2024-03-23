@@ -9,6 +9,8 @@ import (
 
 	server "github.com/JuneSunAt7/Raindrops/0server"
 	"github.com/JuneSunAt7/Raindrops/logger"
+
+	
 )
 
 const (
@@ -19,7 +21,7 @@ func run() (err error) {
 
 	var lstnr net.Listener
 
-	boolTSL := flag.Bool("tls", false, "Set tls")
+	boolTSL := flag.Bool("tls", true, "Set tls")
 	flag.Parse()
 	if !*boolTSL {
 
@@ -28,11 +30,11 @@ func run() (err error) {
 			return err
 		}
 
-		logger.Println("TCP server is UP @ localhost: " + PORT)
+		logger.Println("TCP server is UP @ localhost without ssl: " + PORT)
 
 	} else {
 
-		cer, err := tls.LoadX509KeyPair("certs/server.crt", "certs/server.key")
+		cer, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
 		if err != nil {
 			log.Println(err)
 			return err
@@ -45,8 +47,7 @@ func run() (err error) {
 			return err
 		}
 
-		logger.Println("TCP TLS Server is UP @ localhost: " + PORT)
-
+		logger.Println("TCP TLS Server is UP @ localhost with ssl: " + PORT)
 	}
 
 	defer lstnr.Close()
@@ -66,9 +67,7 @@ func run() (err error) {
 }
 
 func main() {
-
 	if err := run(); err != nil {
 		log.Fatal(err)
 	}
-
 }
