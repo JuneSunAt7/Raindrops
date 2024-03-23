@@ -10,6 +10,10 @@ import (
 	"github.com/pterm/pterm"
 )
 
+func getDownloadLink(name string) string {
+    return "http://127.0.0.1:2121/" + name
+}
+
 func getFile(conn net.Conn, name1 string, fs string) {
 
 	fileSize, err := strconv.ParseInt(fs, 10, 64)
@@ -39,6 +43,6 @@ func getFile(conn net.Conn, name1 string, fs string) {
 	//Use buff size 32 bytes
 	io.Copy(outputFile, io.LimitReader(conn, fileSize))
 	pterm.Success.Println("Файл  " + name + " загружен в облако")
-	fmt.Fprint(conn, "Файл  "+name+" загружен в облако успешно\n")
+	fmt.Fprint(conn, "Файл  "+name+" загружен в облако успешно\nСсылка на файл: "+ getDownloadLink(name))
 
 }

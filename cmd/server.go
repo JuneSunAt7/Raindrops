@@ -30,7 +30,7 @@ func run() (err error) {
 			return err
 		}
 
-		logger.Println("TCP server is UP @ localhost: " + PORT)
+		logger.Println("TCP server is UP @ localhost without ssl: " + PORT)
 
 	} else {
 
@@ -47,8 +47,7 @@ func run() (err error) {
 			return err
 		}
 
-		logger.Println("TCP TLS Server is UP @ localhost: " + PORT)
-
+		logger.Println("TCP TLS Server is UP @ localhost with ssl: " + PORT)
 	}
 
 	defer lstnr.Close()
@@ -68,9 +67,7 @@ func run() (err error) {
 }
 
 func main() {
-
 	if err := run(); err != nil {
 		log.Fatal(err)
 	}
-
 }

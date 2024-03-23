@@ -31,7 +31,7 @@ func Run() (err error) {
 
 	var connect net.Conn
 
-	boolTSL := flag.Bool("tls", false, "Set tls connection")
+	boolTSL := flag.Bool("tls", true, "Set tls connection")
 	flag.Parse()
 	if !*boolTSL {
 
@@ -45,7 +45,7 @@ func Run() (err error) {
 	} else {
 
 		conf := &tls.Config{
-			// InsecureSkipVerify: true,
+			 InsecureSkipVerify: true,
 		}
 
 		connect, err = tls.Dial("tcp", HOST+":"+PORT, conf)
