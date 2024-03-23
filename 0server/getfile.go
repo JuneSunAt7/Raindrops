@@ -7,34 +7,15 @@ import (
 	"os"
 	"strconv"
 	"net/http"
+	"log"
 
 	"github.com/pterm/pterm"
 )
-const PORT = ":8080"
-
-
-func getDownloadLink(name string) string {
-    return "http://127.0.0.1:8080/" +Uname +"/"+ name
-}
-
-func downloadHandler(w http.ResponseWriter, r *http.Request) {
-	fileName := r.URL.Path[len("/download/"):]
-	file, err := os.Open(ROOT + "/" + Uname + "/" + fileName)
-	if err != nil {
-		http.Error(w, "File not found", http.StatusNotFound)
-		return
-	}
-	defer file.Close()
-
-	// Set the content-type header to application/octet-stream
-	w.Header().Set("Content-Type", "application/octet-stream")
-	http.ServeFile(w, r, ROOT + "/" + Uname + "/" + fileName)
-}
 
 func getFile(conn net.Conn, name1 string, fs string) {
 
 	fileSize, err := strconv.ParseInt(fs, 10, 64)
-	if err != nil || fileSize <= 0 { // The size must not be less than or equal to zero!
+	if err != nil || fileSize == -1 {
 		pterm.Error.Println(err.Error())
 		conn.Write([]byte("file size error"))
 		return
@@ -57,14 +38,16 @@ func getFile(conn net.Conn, name1 string, fs string) {
 
 	conn.Write([]byte("200 Start upload!"))
 
-	// Use buff size 32 bytes
 	io.Copy(outputFile, io.LimitReader(conn, fileSize))
 	pterm.Success.Println("Файл  " + name + " загружен в облако")
-	fmt.Fprint(conn, "Файл  "+name+" загружен в облако успешно\nСсылка на файл: "+getDownloadLink(name))
+	fmt.Fprint(conn, "Файл  "+ name +" загружен в облако успешно\nСсылка на облако: http://localhost:8080/"+Uname) // for real server replace localhost to addr
 
-	http.HandleFunc("/download/", downloadHandler)
-    fmt.Println("File server is running on port" + PORT)
-    if err := http.ListenAndServe(PORT, nil); err != nil {
-        fmt.Println("Failed to start file server:", err)
-    }
+	ServeFilestore()
+}
+
+func ServeFilestore() {
+	site := http.FileServer(http.Dir("filestore/"))
+	http.Handle("/", site)
+	pterm.Success.Println("Server started on :8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
