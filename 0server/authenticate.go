@@ -2,7 +2,6 @@ package server
 
 import (
     "bufio"
-    "crypto/tls"
     "encoding/json"
     "errors"
     "io"
@@ -79,33 +78,6 @@ func AuthenticateClient(conn net.Conn) error {
     }
 
     conn.Write([]byte("0"))
-	StartSSLServer("127.0.0.1", "443")
     return nil
 }
 
-func StartSSLServer(host string, port string) {
-    cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
-    if err != nil {
-        pterm.Error.Println("Failed to load certificate: %s", err)
-    }
-
-    config := &tls.Config{
-        Certificates: []tls.Certificate{cert},
-    }
-
-    listener, err := tls.Listen("tcp", host+":"+port, config)
-    if err != nil {
-        pterm.Error.Println("Failed to start TLS listener: %s", err)
-    }
-
-    defer listener.Close()
-
-    for {
-        conn, err := listener.Accept()
-        if err != nil {
-            pterm.Error.Println("Failed to accept connection: %s", err)
-        }
-        
-        go AuthenticateClient(conn)
-    }
-}

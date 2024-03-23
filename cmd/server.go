@@ -9,6 +9,8 @@ import (
 
 	server "github.com/JuneSunAt7/Raindrops/0server"
 	"github.com/JuneSunAt7/Raindrops/logger"
+
+	
 )
 
 const (
@@ -19,7 +21,7 @@ func run() (err error) {
 
 	var lstnr net.Listener
 
-	boolTSL := flag.Bool("tls", false, "Set tls")
+	boolTSL := flag.Bool("tls", true, "Set tls")
 	flag.Parse()
 	if !*boolTSL {
 
@@ -32,7 +34,7 @@ func run() (err error) {
 
 	} else {
 
-		cer, err := tls.LoadX509KeyPair("certs/server.crt", "certs/server.key")
+		cer, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
 		if err != nil {
 			log.Println(err)
 			return err
