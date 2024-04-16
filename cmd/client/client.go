@@ -75,6 +75,7 @@ func Run() (err error) {
 	options = append(options, fmt.Sprintf("Сертификаты и пароли"))
 	options = append(options, fmt.Sprintf("Авторезервирование"))
 	options = append(options, fmt.Sprintf("Плагины"))
+	options = append(options, fmt.Sprintf("Worker"))
 	options = append(options, fmt.Sprintf("Выход"))
 
 	printer := pterm.DefaultInteractiveMultiselect.WithOptions(options)
@@ -100,6 +101,8 @@ func Run() (err error) {
 			client.Autoreserved()
 		case "Плагины":
 			plugins.TuiPugins(connect)
+		case "Worker":
+			client.TuiWorker()
 		case "Выход":
 			client.Exit(connect)
 			return

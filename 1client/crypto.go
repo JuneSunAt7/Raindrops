@@ -80,7 +80,8 @@ func checkFileMD5Hash(path string) {
 	defer hashFile.Close()
 	h := md5.New()
 	if _, err := io.Copy(h, hashFile); err != nil {
-		log.Println(err)
+		log.Println("error calc hash:", err)
+		return
 	}
 	log.Printf("Хеш: %x\n", h.Sum(nil))
 }

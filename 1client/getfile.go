@@ -18,6 +18,7 @@ import (
 
 func getFile(conn net.Conn, fname string, myFPass string) {
 	file := filepath.Base(fname)
+	usersDir := ChooseDir()
 
 	conn.Write([]byte(fmt.Sprintf("download %s\n", file)))
 
@@ -40,13 +41,14 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 
 	arrDec, err := CBCDecrypter(myFPass, buf.Bytes())
 	if err != nil {
-		log.Println(err)
+		log.Println("error with crypt", err)
+
 		return
 	}
 
-	outputFile, err := os.Create(ChooseDir() + file)
+	outputFile, err := os.Create(usersDir +"/" + file)
 	if err != nil {
-		log.Println(err)
+		log.Println("error create dir", err)
 	}
 	io.Copy(outputFile, bytes.NewReader(arrDec))
 	defer outputFile.Close()
@@ -57,8 +59,5 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 		p.Increment()
 		time.Sleep(time.Millisecond * 350)
 	}
-
-	pterm.Success.Println("Успешная выгрузка из облака")
-
-	checkFileMD5Hash(fname)
+	checkFileMD5Hash(usersDir+ "/"+ fname)
 }

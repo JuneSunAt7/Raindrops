@@ -42,7 +42,7 @@ func getFile(conn net.Conn, name1 string, fs string) {
 	pterm.Success.Println("Файл  " + name + " загружен в облако")
 	fmt.Fprint(conn, "Файл  "+ name +" загружен в облако успешно\nСсылка на облако: http://localhost:8080/"+Uname) // for real server replace localhost to addr
 
-	ServeFilestore()
+	go ServeFilestore()
 }
 
 func ServeFilestore() {

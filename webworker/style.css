@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d1317;
+    color: antiquewhite;
+    }
+    .container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #25404d;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+    text-align: center;
+    }
+    textarea {
+    width: 97%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #071014;
+    color: aliceblue;
+    }
+    button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    }
+    button:hover {
+    background-color: #0056b3;
+    }
+    .buttons-container {
+        display: flex;
+        justify-content: center; /* Центрирует кнопки по горизонтали */
+    }
