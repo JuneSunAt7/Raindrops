@@ -130,10 +130,7 @@ func AutoSendFiles(conn net.Conn) {
 func TuiWorker(){
 	var options []string
 
-	options = append(options, fmt.Sprintf("Календарь авторезервирования"))
-	options = append(options, fmt.Sprintf("Файлы для авторезервирования"))
-	options = append(options, fmt.Sprintf("Контейнеры"))
-	options = append(options, fmt.Sprintf("Настройки"))
+	options = append(options, fmt.Sprintf("Запустить"))
 	options = append(options, fmt.Sprintf("Назад"))
 
 	printer := pterm.DefaultInteractiveMultiselect.WithOptions(options)
@@ -142,12 +139,8 @@ func TuiWorker(){
 	for {
 		selectedOptions, _ := pterm.DefaultInteractiveSelect.WithOptions(options).Show()
 		switch selectedOptions {
-		case "Новый файл":
-			NewWorker()
-		case "Редактирование":
-			ChooseWorker()
-		case "Настройки":
-			SettingWorker()
+		case "Запустить":
+			go NewWorker()
 		case "Назад":
 			return
 		}
