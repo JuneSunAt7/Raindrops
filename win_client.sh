@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GOOS=linux GOARCH=amd64 go build -o admin cmd/data_mgmt/server_mgmt.go 
+GOOS=windows GOARCH=amd64 go build -o certs key_gens/generate_ssl.go
 
 echo "Press enter to continue";
 read name;

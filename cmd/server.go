@@ -29,7 +29,7 @@ func run() (err error) {
 		if err != nil {
 			return err
 		}
-
+		
 		logger.Println("TCP server is UP @ localhost without ssl: " + PORT)
 
 	} else {
