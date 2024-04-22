@@ -10,28 +10,23 @@ import (
 	"strings"
 
 	"github.com/pterm/pterm"
+	"golang.org/x/sys/windows/registry"
 )
 
 func Calendar() {
-	file, err := os.Open(ROOT + "/" + "localSettings" + "/" + "settings.ini")
-	if err != nil {
-		pterm.FgLightRed.Println("Файл настроек не найден!")
-		return
-	}
-	defer file.Close()
+	pterm.BgCyan.Println("Дни резервирования:")
+	key := registry.CURRENT_USER
+	subKey := "Software\\Raindrops"
+	valueName := "days"
 
-	data := make([]byte, 64)
-
-	for {
-		n, err := file.Read(data)
-		if err == io.EOF {
-			break
+		val, err := ReadRegistryValue(key, subKey, valueName)
+		if err != nil {
+			pterm.Error.Println("Error reading registry value:", err)
+			return
 		}
-		pterm.BgCyan.Println("Дни резервирования:")
 
-		pterm.FgGreen.Println(strings.ReplaceAll(string(data[:n]), " ", "\n"))
-
-	}
+	pterm.FgGreen.Println(val)
+	
 }
 
 func Userfiles() {
@@ -60,12 +55,7 @@ func Userfiles() {
 
 func updateSettings(files []string) {
 	// Write path selected files
-	outputFile, err := os.Create(ROOT + "/" + "localSettings" + "/" + "path.ini")
-	if err != nil {
-		pterm.FgRed.Printfln("Ошибка создания локального файла!")
-	}
-	defer outputFile.Close()
-	outputFile.WriteString(strings.Join(files, "\n"))
+	CreateSettingsToRegedit("path", strings.Join(files, " "))
 }
 func Setting() {
 
@@ -87,20 +77,7 @@ func Setting() {
 }
 
 func createSettingsFile(days []string) {
-	/* errmk := os.Mkdir(ROOT+"/"+"localSettings", 0777)
-	if errmk != nil {
-
-		fmt.Println(errmk)
-		pterm.FgLightRed.Println("Ошибка создания реестра настроек!")
-	} */
-
-	outputFile, err := os.Create(ROOT + "/" + "localSettings" + "/" + "settings.ini")
-	if err != nil {
-		pterm.FgRed.Printfln("Ошибка создания локального файла!")
-	}
-	defer outputFile.Close()
-	outputFile.WriteString(strings.Join(days, "\n"))
-
+	CreateSettingsToRegedit("days", strings.Join(days, " "))
 }
 
 func Containers() {

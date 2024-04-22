@@ -20,16 +20,17 @@ func CreateSettingsToRegedit(settingsName string, settingValue string) {
 		return
 	}
 }
-func ReadSettingsFromRegedit(settingName string) string{
-	k, err := registry.OpenKey(registry.LOCAL_MACHINE, `Software\Raindrops`, registry.QUERY_VALUE)
+func ReadRegistryValue(key registry.Key, subKey string, valueName string) (string, error) {
+	k, err := registry.OpenKey(key, subKey, registry.QUERY_VALUE)
 	if err != nil {
-		return ""
+		return "", err
 	}
 	defer k.Close()
 
-	val, _, err := k.GetStringValue(settingName)
+	val, _, err := k.GetStringValue(valueName)
 	if err != nil {
-		return ""
+		return "", err
 	}
-	return val
+
+	return val, nil
 }

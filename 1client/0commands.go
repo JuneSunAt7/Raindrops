@@ -140,7 +140,7 @@ func TuiWorker(){
 		selectedOptions, _ := pterm.DefaultInteractiveSelect.WithOptions(options).Show()
 		switch selectedOptions {
 		case "Запустить":
-			go NewWorker()
+			NewWorker()
 		case "Назад":
 			return
 		}
