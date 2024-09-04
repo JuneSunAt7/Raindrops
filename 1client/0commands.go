@@ -1,16 +1,16 @@
 package client
 
 import (
-	"bufio"
+
 	"fmt"
 	"net"
-	"os"
+
 	"path/filepath"
 	"strings"
-	"time"
 
 	"atomicgo.dev/keyboard/keys"
 	"github.com/pterm/pterm"
+	"golang.org/x/sys/windows/registry"
 )
 
 var ROOT = "filestore/storeclient"
@@ -99,33 +99,24 @@ func Autoreserved() {
 
 func AutoSendFiles(conn net.Conn) {
 
-	file, err := os.Open(ROOT + "/" + "localSettings" + "/" + "path.ini")
+	key := registry.CURRENT_USER
+	subKey := "Software\\Raindrops"
+	valueName := "path"
+
+	val, err := ReadRegistryValue(key, subKey, valueName)
 	if err != nil {
-		pterm.FgRed.Println("Файлы для резервирования не найдены!")
+		pterm.Error.Println("Error reading registry value:", err)
 		return
 	}
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+	fname := strings.Replace(val, "\\", "/", -1)
+	lastChar := fname[len(fname)-1]
+	if string(lastChar) == "/"{// wow if it isnt directory??
+		dirname := dirs(fname)
+		reserveSend(conn, dirname)
+	}else{
+	reserveSend(conn, fname)
 	}
-
-	for j := 0; j < len(lines); j++ {
-
-		fname := strings.Replace(lines[j], "\\", "/", -1)
-		lastChar := fname[len(fname)-1]
-		if string(lastChar) == "/"{// wow if it isnt directory??
-			dirname := dirs(fname)
-			reserveSend(conn, dirname)
-		}else{
-		reserveSend(conn, fname)
-		}
-		if j > 10 {
-			time.Sleep(time.Millisecond * 30)
-		}
-	}
+	
 }
 func TuiWorker(){
 	var options []string

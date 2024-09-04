@@ -1,11 +1,11 @@
 package client
 
 import (
-	"bufio"
-	"os"
+	"strings"
 	"time"
 
 	"github.com/pterm/pterm"
+	"golang.org/x/sys/windows/registry"
 )
 
 var days = map[string]string{
@@ -27,18 +27,16 @@ func todayData() string {
 func Compare() bool {
 	var reserve bool
 
-	file, err := os.Open(ROOT + "/" + "localSettings" + "/" + "settings.ini")
-	if err != nil {
-		pterm.FgRed.Println("Файл настроек не найден")
-		return false
-	}
-	defer file.Close()
+	key := registry.CURRENT_USER
+	subKey := "Software\\Raindrops"
+	valueName := "days"
 
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
+		val, err := ReadRegistryValue(key, subKey, valueName)
+		if err != nil {
+			pterm.Error.Println("Error reading registry value:", err)
+			return false
+		}
+	lines := strings.Fields(val)
 
 	for i := 0; i < 7; i++ {
 		for j := 0; j < len(lines); j++ {
@@ -49,6 +47,5 @@ func Compare() bool {
 			}
 		}
 	}
-
 	return reserve
 }

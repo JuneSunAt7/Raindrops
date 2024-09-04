@@ -54,7 +54,6 @@ func Userfiles() {
 }
 
 func updateSettings(files []string) {
-	// Write path selected files
 	CreateSettingsToRegedit("path", strings.Join(files, " "))
 }
 func Setting() {
