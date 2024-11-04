@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"net/http"
 	"log"
+	"io/ioutil"
 
 	"github.com/pterm/pterm"
 )
@@ -73,6 +74,20 @@ func getData(conn net.Conn, name1 string, fs string) {
 	io.Copy(outputFile, io.LimitReader(conn, fileSize))
 	pterm.Success.Println("Файл  " + name + " загружен в облако")
 	fmt.Fprint(conn, "Файл  "+ name +" загружен в облако успешно") // for real server replace localhost to addr
+	encryptedData, err := ioutil.ReadAll(io.LimitReader(conn, fileSize))
+    if err != nil {
+		pterm.Error.Println(err.Error())
+	}
+	decryptedData, err := CBCDecrypter(encryptedData)
+    if err != nil {
+        pterm.Error.Println(err.Error())
+    }
+
+    // Write the decrypted data to the output file
+    _, err = outputFile.Write(decryptedData)
+    if err != nil {
+        pterm.Error.Println(err.Error())
+    }
 
 }
 func ServeFilestore() {

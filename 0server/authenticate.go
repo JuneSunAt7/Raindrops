@@ -1,17 +1,17 @@
 package server
 
 import (
-    "bufio"
-    "encoding/json"
-    "errors"
-    "io"
-    "net"
-    "os"
+	"bufio"
+	"encoding/json"
+	"errors"
+	"io"
+	"net"
+	"os"
 
-    "github.com/JuneSunAt7/Raindrops/logger"
-    "github.com/pterm/pterm"
+	"github.com/JuneSunAt7/Raindrops/logger"
+	"github.com/pterm/pterm"
 )
-
+var SESSION_PASSWD string
 type Credentials struct {
     Username string `json:"username"`
     Password string `json:"password"`
@@ -71,6 +71,7 @@ func AuthenticateClient(conn net.Conn) error {
         for _, cred := range *creds {
             if cred.Username == uname && cred.Password == passwd {
                 logger.Println("Новое подключение ", uname)
+                SESSION_PASSWD = passwd
                 conn.Write([]byte("1"))
                 return nil
             }
