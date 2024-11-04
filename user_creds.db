@@ -1,10 +1,1 @@
-[
-  {
-    "username": "newuser",
-    "password": "5f4dcc3b5aa765d61d8327deb882cf99"
-  },
-  {
-    "username": "veronika",
-    "password": "76a2173be6393254e72ffa4d6df1030a"
-  }
-]
+[{"username":"newuser","password":"5f4dcc3b5aa765d61d8327deb882cf99"},{"username":"bled","password":"220f4bf3d9e6e01eb05e122a43fe92c4"}]
