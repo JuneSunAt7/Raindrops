@@ -48,6 +48,9 @@ func HandleServer(conn net.Conn) {
 		case "upload":
 			logger.Println("Загрузка в облако")
 			getFile(conn, commandArr[1], commandArr[2])
+		case "dt_man":
+			logger.Println("Загрузка в облако больших данных")
+			getData(conn, commandArr[1], commandArr[2])
 		case "ls":
 			logger.Println("Просмотр файлов")
 			getListFiles(conn)

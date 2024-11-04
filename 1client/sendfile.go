@@ -65,7 +65,7 @@ func sendFile(conn net.Conn, fname string) {
 	}
 	pterm.Success.Println(strings.Trim(string(buf[:n]), "\n"))
 
-	checkFileMD5Hash(fname)
+	CheckFileMD5Hash(fname)
 }
 
 func reserveSend(conn net.Conn, fname string) {

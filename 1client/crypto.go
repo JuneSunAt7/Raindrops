@@ -74,7 +74,7 @@ func CBCDecrypter(password string, ciphertext []byte) ([]byte, error) {
 	return ciphertextOut, nil
 }
 
-func checkFileMD5Hash(path string) {
+func CheckFileMD5Hash(path string) {
 
 	hashFile, _ := os.Open(path)
 	defer hashFile.Close()

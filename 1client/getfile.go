@@ -59,5 +59,5 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 		p.Increment()
 		time.Sleep(time.Millisecond * 350)
 	}
-	checkFileMD5Hash(usersDir+ "/"+ fname)
+	CheckFileMD5Hash(usersDir+ "/"+ fname)
 }
