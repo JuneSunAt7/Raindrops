@@ -15,7 +15,7 @@ import (
 )
 
 func CBCEncrypter(password string, sl []byte) ([]byte, error) {
-	key := md5.Sum([]byte(PASSWD))
+	key := md5.Sum([]byte(password))
 	sl16 := make([]byte, int(math.Ceil(float64(len(sl))/aes.BlockSize)*aes.BlockSize)) //%16 bytes
 	copy(sl16, sl)
 
@@ -74,7 +74,7 @@ func CBCDecrypter(password string, ciphertext []byte) ([]byte, error) {
 	return ciphertextOut, nil
 }
 
-func checkFileMD5Hash(path string) {
+func CheckFileMD5Hash(path string) {
 
 	hashFile, _ := os.Open(path)
 	defer hashFile.Close()

@@ -31,3 +31,22 @@ func getListFiles(conn net.Conn) {
 	conn.Write([]byte(fileINFO))
 
 }
+func GetListStatistical(conn net.Conn) {
+	files, err := ioutil.ReadDir(ROOT + "/" + Uname + "/statistics/analyze/") // Read all filenames from filestore.
+	if err != nil {
+		pterm.Error.Println("Директория не была создана")
+		conn.Write([]byte("Директория не была создана"))
+		logger.Println(err.Error())
+	}
+
+	fileINFO := ""
+	for _, file := range files {
+		if !file.IsDir() {
+			fileINFO += fmt.Sprintf("%-40s%-25s\n",
+				file.Name(),
+				file.ModTime().Format("2006-01-02 15:04"))
+		}
+
+	}
+	conn.Write([]byte(fileINFO))
+}

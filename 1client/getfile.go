@@ -2,6 +2,8 @@ package client
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"path/filepath"
@@ -39,7 +41,10 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 	buf := new(bytes.Buffer)
 	io.Copy(buf, io.LimitReader(conn, fileSize))
 
-	arrDec, err := CBCDecrypter(myFPass, buf.Bytes())
+	hash := md5.Sum([]byte(PASSWD))
+	strPasswd := hex.EncodeToString(hash[:])
+
+	arrDec, err := CBCDecrypter(strPasswd, buf.Bytes())
 	if err != nil {
 		log.Println("error with crypt", err)
 
@@ -59,5 +64,5 @@ func getFile(conn net.Conn, fname string, myFPass string) {
 		p.Increment()
 		time.Sleep(time.Millisecond * 350)
 	}
-	checkFileMD5Hash(usersDir+ "/"+ fname)
+	CheckFileMD5Hash(usersDir+ "/"+ fname)
 }

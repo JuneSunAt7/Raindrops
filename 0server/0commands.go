@@ -48,6 +48,9 @@ func HandleServer(conn net.Conn) {
 		case "upload":
 			logger.Println("Загрузка в облако")
 			getFile(conn, commandArr[1], commandArr[2])
+		case "dt_man":
+			logger.Println("Загрузка в облако больших данных")
+			getData(conn, commandArr[1], commandArr[2])
 		case "ls":
 			logger.Println("Просмотр файлов")
 			getListFiles(conn)
@@ -69,6 +72,12 @@ func HandleServer(conn net.Conn) {
 		case "getplugin":
 			logger.Println("Получение плагина")
 			sendPlugin(conn,commandArr[1])
+		case "list_stat":
+			logger.Println("Просмотр статистики")
+			GetListStatistical(conn)
+		case "down_stat":
+			logger.Println("Скачивание статистики")
+			sendAnalyze(conn, commandArr[1])
 		case "close":
 			pterm.Warning.Println("Закрытие соединения")
 			return

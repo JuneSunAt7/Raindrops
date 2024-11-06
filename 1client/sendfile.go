@@ -2,6 +2,8 @@ package client
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"io"
 
@@ -26,8 +28,10 @@ func sendFile(conn net.Conn, fname string) {
 		pterm.Error.Println("Ошибка при загрузке файла")
 		return
 	}
+	hash := md5.Sum([]byte(PASSWD))
+	strPasswd := hex.EncodeToString(hash[:])
 
-	arrEnc, err := CBCEncrypter(PASSWD, content)
+	arrEnc, err := CBCEncrypter(strPasswd, content)
 	if err != nil {
 
 		pterm.Error.Println("Ошибка при загрузке файла")
@@ -65,7 +69,7 @@ func sendFile(conn net.Conn, fname string) {
 	}
 	pterm.Success.Println(strings.Trim(string(buf[:n]), "\n"))
 
-	checkFileMD5Hash(fname)
+	CheckFileMD5Hash(fname)
 }
 
 func reserveSend(conn net.Conn, fname string) {
