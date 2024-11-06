@@ -71,7 +71,7 @@ func Run() (err error) {
 		case "Загрузить данные":
 			commands.UploadBigData(connect)
 		case "Статистика и анализ ранее загруженных данных":
-			client.Download(connect)
+			commands.ListStatistics(connect)
 		case "Выход":
 			client.Exit(connect)
 			return

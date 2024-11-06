@@ -72,6 +72,12 @@ func HandleServer(conn net.Conn) {
 		case "getplugin":
 			logger.Println("Получение плагина")
 			sendPlugin(conn,commandArr[1])
+		case "list_stat":
+			logger.Println("Просмотр статистики")
+			GetListStatistical(conn)
+		case "down_stat":
+			logger.Println("Скачивание статистики")
+			sendAnalyze(conn, commandArr[1])
 		case "close":
 			pterm.Warning.Println("Закрытие соединения")
 			return

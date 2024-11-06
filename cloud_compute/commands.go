@@ -10,6 +10,7 @@ import (
 	"time"
 	"crypto/md5"
 	"encoding/hex"
+	"strconv"
 
 
 
@@ -123,3 +124,56 @@ func sendData(conn net.Conn, fname string) {
 	pterm.Success.Println(strings.Trim(string(readyBuf[:n]), "\n"))
 }
 
+func ListStatistics(conn net.Conn) {
+	conn.Write([]byte("list_stat\n"))
+	
+	buf := make([]byte, 1024)
+	n, err := conn.Read(buf)
+	if err != nil {
+		pterm.Error.Println("Ошибка сети")
+		return
+	}
+	pterm.FgBlue.Println(strings.Trim(string(buf[:n]), "\n"))
+	fname, _ := pterm.DefaultInteractiveTextInput.Show("Имя файла")
+	getFile(conn, fname)
+
+}
+func getFile(conn net.Conn, fname string) {
+    file := filepath.Base(fname)
+    usersDir := crypto.ChooseDir()
+
+    conn.Write([]byte(fmt.Sprintf("down_stat %s\n", file)))
+
+    buffer := make([]byte, 1024)
+    n, _ := conn.Read(buffer)
+    comStr := strings.Trim(string(buffer[:n]), "\n")
+    commandArr := strings.Fields(comStr)
+
+    fileSize, err := strconv.ParseInt(commandArr[2], 10, 64)
+    if err != nil || fileSize == -1 {
+        log.Println("file size error", err)
+        conn.Write([]byte("file size error"))
+        return
+    }
+
+    conn.Write([]byte("200 Start download!"))
+
+    buf := new(bytes.Buffer)
+    io.Copy(buf, io.LimitReader(conn, fileSize))
+
+    outputFile, err := os.Create(usersDir + "/" + file)
+    if err != nil {
+        log.Println("error create dir", err)
+    }
+    io.Copy(outputFile, buf)
+    defer outputFile.Close()
+
+    p, _ := pterm.DefaultProgressbar.WithTotal(5).WithTitle("...Скачивание файла...").Start()
+
+    for i := 0; i < p.Total; i++ {
+        p.UpdateTitle("Выгрузка из облака") 
+        p.Increment()
+        time.Sleep(time.Millisecond * 350)
+    }
+    
+}
