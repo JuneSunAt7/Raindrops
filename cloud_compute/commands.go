@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"crypto/md5"
+	"encoding/hex"
 
 
 	"log"
@@ -59,8 +61,11 @@ func sendData(conn net.Conn, fname string) {
 		pterm.Error.Println("Ошибка при загрузке файла")
 		return
 	}
-	fmt.Println(crypto.PASSWD)
-	arrEnc, err := crypto.CBCEncrypter(crypto.PASSWD, content)
+	hash := md5.Sum([]byte(crypto.PASSWD))
+	strPasswd := hex.EncodeToString(hash[:])
+	log.Println(strPasswd)
+	
+	arrEnc, err := crypto.CBCEncrypter(strPasswd, content)
 	if err != nil {
 
 		pterm.Error.Println("Ошибка при загрузке файла")

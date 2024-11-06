@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"net/http"
 	"log"
-	"io/ioutil"
+	"bytes"
 
 	"github.com/pterm/pterm"
 )
@@ -60,6 +60,18 @@ func getData(conn net.Conn, name1 string, fs string) {
 		pterm.Warning.Println("Ошибка создания папки")
 	}
 
+	conn.Write([]byte("200 Start upload!"))
+
+	buf := new(bytes.Buffer)
+	io.Copy(buf, io.LimitReader(conn, fileSize))
+
+	arrDec, err := CBCDecrypter(buf.Bytes())
+	log.Print(SESSION_PASSWD)
+	if err != nil {
+		log.Println("error with crypt", err)
+
+		return
+	}
 	outputFile, err := os.Create(ROOT + "/" + Uname + "/statistics/"+ name)
 	
 	if err != nil {
@@ -67,28 +79,13 @@ func getData(conn net.Conn, name1 string, fs string) {
 		conn.Write([]byte("Ошибка файловой системы"))
 		return
 	}
+	
+	io.Copy(outputFile, bytes.NewReader(arrDec))
 	defer outputFile.Close()
 
-	conn.Write([]byte("200 Start upload!"))
-
-	io.Copy(outputFile, io.LimitReader(conn, fileSize))
 	pterm.Success.Println("Файл  " + name + " загружен в облако")
 	fmt.Fprint(conn, "Файл  "+ name +" загружен в облако успешно") // for real server replace localhost to addr
-	encryptedData, err := ioutil.ReadAll(io.LimitReader(conn, fileSize))
-    if err != nil {
-		pterm.Error.Println(err.Error())
-	}
-	decryptedData, err := CBCDecrypter(encryptedData)
-    if err != nil {
-        pterm.Error.Println(err.Error())
-    }
-
-    // Write the decrypted data to the output file
-    _, err = outputFile.Write(decryptedData)
-    if err != nil {
-        pterm.Error.Println(err.Error())
-    }
-
+	
 }
 func ServeFilestore() {
 	site := http.FileServer(http.Dir("filestore/"))
