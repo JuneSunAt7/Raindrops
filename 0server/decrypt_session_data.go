@@ -6,11 +6,9 @@ import (
 	"crypto/cipher"
 	"crypto/md5"
 	"errors"
-	"log"
 )
 
 func CBCDecrypter(ciphertext []byte) ([]byte, error) {
-	log.Println(SESSION_PASSWD)
 	key := md5.Sum([]byte(SESSION_PASSWD))
 
 	block, err := aes.NewCipher(key[:])

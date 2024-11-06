@@ -9,8 +9,10 @@ import (
 	"net/http"
 	"log"
 	"bytes"
+	"os/exec"
 
 	"github.com/pterm/pterm"
+
 )
 
 func getFile(conn net.Conn, name1 string, fs string) {
@@ -60,13 +62,17 @@ func getData(conn net.Conn, name1 string, fs string) {
 		pterm.Warning.Println("Ошибка создания папки")
 	}
 
+	erranalyze := os.Mkdir(ROOT+"/"+Uname+ "/statistics/analyze", 0777)
+	if erranalyze != nil {
+		pterm.Warning.Println("Ошибка создания папки")
+	}
 	conn.Write([]byte("200 Start upload!"))
 
 	buf := new(bytes.Buffer)
 	io.Copy(buf, io.LimitReader(conn, fileSize))
 
 	arrDec, err := CBCDecrypter(buf.Bytes())
-	log.Print(SESSION_PASSWD)
+	
 	if err != nil {
 		log.Println("error with crypt", err)
 
@@ -85,6 +91,8 @@ func getData(conn net.Conn, name1 string, fs string) {
 
 	pterm.Success.Println("Файл  " + name + " загружен в облако")
 	fmt.Fprint(conn, "Файл  "+ name +" загружен в облако успешно") // for real server replace localhost to addr
+	AnalyzeLatestFile(conn)
+
 	
 }
 func ServeFilestore() {
@@ -92,4 +100,22 @@ func ServeFilestore() {
 	http.Handle("/", site)
 	pterm.Success.Println("Server started on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+func AnalyzeLatestFile(conn net.Conn) {
+	conn.Write([]byte("Анализ данных начат..."))
+	pythonScriptPath := "0server/py_scripts/script.py" // Здесь укажите путь к вашему скрипту 
+
+    param2 := "filestore/" + SESSION_UNAME + "/statistics/"
+	fmt.Println(param2)
+    // Запускаем Python скрипт с двумя параметрами
+    cmd := exec.Command("python", pythonScriptPath,  param2)
+	output, err := cmd.Output()
+    if err != nil {
+        pterm.Error.Println("Error:", err)
+		conn.Write([]byte(err.Error()))
+        return
+    }
+	pterm.Success.Println(string(output))
+	conn.Write([]byte("Анализ данных завершен. Результаты можно скачать'Статистика и анализ...' "))
+
 }

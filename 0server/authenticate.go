@@ -12,6 +12,7 @@ import (
 	"github.com/pterm/pterm"
 )
 var SESSION_PASSWD string
+var SESSION_UNAME string
 type Credentials struct {
     Username string `json:"username"`
     Password string `json:"password"`
@@ -72,6 +73,7 @@ func AuthenticateClient(conn net.Conn) error {
             if cred.Username == uname && cred.Password == passwd {
                 logger.Println("Новое подключение ", uname)
                 SESSION_PASSWD = passwd
+                SESSION_UNAME = uname
                 conn.Write([]byte("1"))
                 return nil
             }

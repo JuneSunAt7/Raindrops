@@ -12,6 +12,7 @@ import (
 	"encoding/hex"
 
 
+
 	"log"
 	"github.com/harry1453/go-common-file-dialog/cfd"
 	crypto "github.com/JuneSunAt7/Raindrops/1client"
@@ -63,8 +64,7 @@ func sendData(conn net.Conn, fname string) {
 	}
 	hash := md5.Sum([]byte(crypto.PASSWD))
 	strPasswd := hex.EncodeToString(hash[:])
-	log.Println(strPasswd)
-	
+
 	arrEnc, err := crypto.CBCEncrypter(strPasswd, content)
 	if err != nil {
 
@@ -104,4 +104,22 @@ func sendData(conn net.Conn, fname string) {
 	pterm.Success.Println(strings.Trim(string(buf[:n]), "\n"))
 
 	crypto.CheckFileMD5Hash(fname)
+
+	answerBuf := make([]byte, 1024)
+	n, err = conn.Read(answerBuf)
+	if err != nil {
+		pterm.Error.Println("Ошибка сети")
+		return
+	}
+	pterm.Success.Println(strings.Trim(string(answerBuf[:n]), "\n"))
+	time.Sleep(time.Millisecond * 100)
+	
+	readyBuf := make([]byte, 1024)
+	n, err = conn.Read(readyBuf)
+	if err != nil {
+		pterm.Error.Println("Ошибка сети")
+		return
+	}
+	pterm.Success.Println(strings.Trim(string(readyBuf[:n]), "\n"))
 }
+
