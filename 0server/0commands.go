@@ -78,6 +78,9 @@ func HandleServer(conn net.Conn) {
 		case "down_stat":
 			logger.Println("Скачивание статистики")
 			sendAnalyze(conn, commandArr[1])
+		case "set_repo":
+			logger.Println("Установка репозитория")
+			SetupRepo(conn)
 		case "close":
 			pterm.Warning.Println("Закрытие соединения")
 			return

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net"
 	"os"
@@ -68,9 +69,9 @@ func AuthenticateClient(conn net.Conn) error {
 
         reader.Scan()
         passwd := reader.Text()
-
+        fmt.Println(Uname, passwd)
         for _, cred := range *creds {
-            if cred.Username == uname && cred.Password == passwd {
+            if cred.Username == Uname && cred.Password == passwd {
                 logger.Println("Новое подключение ", uname)
                 SESSION_PASSWD = passwd
                 SESSION_UNAME = uname

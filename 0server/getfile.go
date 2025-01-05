@@ -26,7 +26,7 @@ func getFile(conn net.Conn, name1 string, fs string) {
 
 	name := name1
 
-	errmk := os.Mkdir(ROOT+"/"+Uname, 0777)
+	errmk := os.MkdirAll(ROOT+"/"+Uname, 0777)
 	if errmk != nil {
 		pterm.Warning.Println("Ошибка создания папки")
 	}
@@ -57,12 +57,12 @@ func getData(conn net.Conn, name1 string, fs string) {
 
 	name := name1
 
-	errmk := os.Mkdir(ROOT+"/"+Uname+ "/statistics", 0777)
+	errmk := os.MkdirAll(ROOT+"/"+Uname+ "/statistics", 0777)
 	if errmk != nil {
 		pterm.Warning.Println("Ошибка создания папки")
 	}
 
-	erranalyze := os.Mkdir(ROOT+"/"+Uname+ "/statistics/analyze", 0777)
+	erranalyze := os.MkdirAll(ROOT+"/"+Uname+ "/statistics/analyze", 0777)
 	if erranalyze != nil {
 		pterm.Warning.Println("Ошибка создания папки")
 	}
@@ -107,7 +107,7 @@ func AnalyzeLatestFile(conn net.Conn) {
 
     param2 := "filestore/" + SESSION_UNAME + "/statistics/"
 	fmt.Println(param2)
-    // Запускаем Python скрипт с двумя параметрами
+    // Запускаем Python скрипт 
     cmd := exec.Command("python", pythonScriptPath,  param2)
 	output, err := cmd.Output()
     if err != nil {
