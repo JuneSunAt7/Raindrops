@@ -83,7 +83,6 @@ func reserveSend(conn net.Conn, fname string) {
 	}
 	defer dir.Close()
 
-	// Получаем список файлов и папок
 	files, err := dir.Readdir(-1)
 	if err != nil {
 

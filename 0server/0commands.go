@@ -81,9 +81,15 @@ func HandleServer(conn net.Conn) {
 		case "set_repo":
 			logger.Println("Установка репозитория")
 			SetupRepo(conn)
+		case "get_repo":
+			logger.Println("Получение репозитория")
+			GetListKeeps(conn, commandArr[1])
 		case "update_repo":
 			logger.Println("Обновление репозитория")
 			GetKeeps(conn, commandArr[1])
+		case "get_last_keep":
+			logger.Println("Получение последнего сохранения")
+			GetLastKeep(conn, commandArr[1])
 		case "close":
 			pterm.Warning.Println("Закрытие соединения")
 			return

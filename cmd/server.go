@@ -63,7 +63,6 @@ func run() (err error) {
 		go server.HandleServer(connection)
 	}
 
-	// return nil
 }
 
 func main() {

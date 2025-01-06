@@ -103,11 +103,10 @@ func ServeFilestore() {
 }
 func AnalyzeLatestFile(conn net.Conn) {
 	conn.Write([]byte("Анализ данных начат..."))
-	pythonScriptPath := "0server/py_scripts/script.py" // Здесь укажите путь к вашему скрипту 
+	pythonScriptPath := "0server/py_scripts/script.py" 
 
     param2 := "filestore/" + SESSION_UNAME + "/statistics/"
 	fmt.Println(param2)
-    // Запускаем Python скрипт 
     cmd := exec.Command("python", pythonScriptPath,  param2)
 	output, err := cmd.Output()
     if err != nil {
