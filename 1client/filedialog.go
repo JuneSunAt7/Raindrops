@@ -8,24 +8,27 @@ import (
 )
 
 func ChooseFile() string {
-	openDialog, err := cfd.NewOpenFileDialog(cfd.DialogConfig{
-		Title: "Open A File",
-		Role:  "OpenFile",
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
+    openDialog, err := cfd.NewOpenFileDialog(cfd.DialogConfig{
+        Title: "Open A File",
+        Role:  "OpenFile",
+    })
+    if err != nil {
+        log.Fatalf("Ошибка при создании диалогового окна: %v", err)
+    }
 
-	if err := openDialog.Show(); err != nil {
-		log.Fatal(err)
-	}
-	result, err := openDialog.GetResult()
-	if err == cfd.ErrorCancelled {
-		pterm.Error.Println("Вы закрыли окно выбора файла")
-	} else if err != nil {
-		log.Fatal(err)
-	}
-	return result
+    if err := openDialog.Show(); err != nil {
+        log.Fatalf("Ошибка при показе диалогового окна: %v", err)
+    }
+
+    result, err := openDialog.GetResult()
+    if err == cfd.ErrorCancelled {
+        pterm.Error.Println("Вы закрыли окно выбора файла")
+        return ""
+    } else if err != nil {
+        log.Fatalf("Ошибка при получении результата: %v", err)
+    }
+
+    return result
 }
 func ChooseDir() string {
 	openDialog, err := cfd.NewSelectFolderDialog(cfd.DialogConfig{

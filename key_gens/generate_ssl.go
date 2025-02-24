@@ -23,7 +23,7 @@ func main() {
 	template := x509.Certificate{
 		SerialNumber: big.NewInt(1),
 		Subject: pkix.Name{
-			Organization: []string{"Example Corp"},
+			Organization: []string{"Raindrops"},
 		},
 		NotBefore: notBefore,
 		NotAfter:  notAfter,
