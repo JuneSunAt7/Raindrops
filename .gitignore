@@ -25,3 +25,5 @@ filestore/
 info.log
 
 
+server_rd
+docker-compose.yml
