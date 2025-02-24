@@ -30,3 +30,8 @@ docker-compose.yml
 key.pem
 cert.pem
 test_data/test1.txt
+build/linux/client
+build/linux/generate_ssl
+build/linux/run_cli_intell
+build/linux/server
+build/linux/server_mgmt
