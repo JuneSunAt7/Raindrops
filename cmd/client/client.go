@@ -75,7 +75,7 @@ func Run() (err error) {
 	options = append(options, fmt.Sprintf("Сертификаты и пароли"))
 	options = append(options, fmt.Sprintf("Авторезервирование"))
 	options = append(options, fmt.Sprintf("Плагины"))
-	options = append(options, fmt.Sprintf("Worker"))
+	options = append(options, fmt.Sprintf("Моя Kanban-доска"))
 	options = append(options, fmt.Sprintf("Выход"))
 
 	printer := pterm.DefaultInteractiveMultiselect.WithOptions(options)

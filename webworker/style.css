@@ -1,41 +1,173 @@
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #0d1317;
-    color: antiquewhite;
-    }
-    .container {
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #25404d;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-    text-align: center;
-    }
-    textarea {
-    width: 97%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #071014;
-    color: aliceblue;
-    }
-    button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
-    }
-    button:hover {
-    background-color: #0056b3;
-    }
-    .buttons-container {
-        display: flex;
-        justify-content: center; 
-    }
+
+	font-family: "PT San Serif", sans-serif;
+	min-width: 420px;
+	background: #0097bd;
+	color: #fff;
+	background: linear-gradient(15deg, #34aed3 50%, #133aa6 50.1%);
+	height: 100vh;
+}
+
+h1 {
+	font-size: 5.4rem;
+	width: 40rem;
+	margin: 2rem auto;
+	text-align: center;
+}
+
+
+.add-task-container {
+	width: 50%;
+	justify-content: space-between;
+	display: flex;
+	margin: 0 auto;
+	padding: 10px;
+	position: relative;
+	overflow: hidden;
+}
+
+
+#taskText {
+
+	border: #161515 0.15rem solid;
+	border-radius: 0.2rem;
+	text-align: center;
+	height: 4rem;
+	width: 90%;
+	margin: auto 0.8rem auto 0.1rem;
+	background: #1b2e4b;
+	color: #bfc9d4 !important;
+    border-radius: 10px;
+}
+
+
+
+.button {
+	font-weight: 700;
+	border: #000013 0.14rem solid;
+	border-radius: 0.2rem;
+	color: #000013;
+	padding: 0.6rem 1rem;
+	margin-bottom: 0.3rem;
+	cursor: pointer;
+}
+
+.add-button {
+
+	background-color: #1effec;
+	padding: 0 1rem;
+	margin-top: 0.6rem;
+	height: 3.8rem;
+	width: 10rem;
+    border-radius: 15px;
+
+}
+
+.add-button:hover {
+	background-color: #6e95ff;
+}
+
+.delete-button {
+	background-color: #ff4a44;
+	margin: 0.1rem auto 0.6rem auto;
+    border-radius: 15px;
+
+}
+
+.delete-button:hover {
+	background-color: #fd2727;
+}
+
+.main-container {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.columns {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: start;
+	-ms-flex-align: start;
+	align-items: flex-start;
+	margin: 1.6rem auto;
+	width: 80%;
+	color: #bfc9d4;
+    border-radius: 10px;
+}
+
+.column {
+	width: 100%;
+	flex: 1;
+	margin: 0 10px;
+	position: relative;
+	background: #0d2653;
+	overflow: hidden;	
+    border-radius: 10px;
+}
+
+.column-header {
+	font-size: 17px;
+	border-bottom: #000013 0.2rem solid;
+	text-align: center;
+}
+
+.column-button {
+	text-align: center;
+	padding: 0.1rem;
+    border-radius: 15px;
+
+}
+
+.task-list {
+	min-height: 3rem;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style-type: none;
+}
+
+.task {
+
+	background: #1b2e4b;
+	margin: 0.4rem;
+	height: 4rem;
+	display: flex;
+	-webkit-box-pack: center;
+	justify-content: center;
+	cursor: move;
+	border-radius: 10px;
+	font-size: 15px;
+}
+.task p {
+	margin: auto;
+}
+
+.gu-mirror {
+	position: fixed !important;
+	margin: 0 !important;
+	z-index: 9999 !important;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+.gu-hide {
+	display: none !important;
+}
+.gu-transit {
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+	border: 1px solid #00ff7f !important;
+	box-shadow: 1px 0 4px 1px #00ff7f !important;
+}
