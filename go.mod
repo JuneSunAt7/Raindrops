@@ -6,7 +6,9 @@ require github.com/harry1453/go-common-file-dialog v1.2.0
 
 require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
+	github.com/go-toast/toast v0.0.0-20190211030409-01e6764cf0a4 // indirect
 	github.com/google/uuid v1.5.0 // indirect
+	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 )
 
 require (
