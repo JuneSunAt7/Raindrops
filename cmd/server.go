@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"time"
+	"os"
 
 	server "github.com/JuneSunAt7/Raindrops/0server"
 	"github.com/JuneSunAt7/Raindrops/logger"
@@ -66,6 +67,18 @@ func run() (err error) {
 }
 
 func main() {
+	filePath := "launcher.exe" // del launcher
+
+    if _, err := os.Stat(filePath); os.IsNotExist(err) {
+        return
+    }
+
+    err := os.Remove(filePath)
+    if err != nil {
+        return
+    }
+
+	
 	if err := run(); err != nil {
 		log.Fatal(err)
 	}

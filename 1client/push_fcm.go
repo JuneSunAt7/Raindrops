@@ -12,7 +12,7 @@ func SendNotification(title, message string) {
 	}
 
     notification := toast.Notification{
-        AppID:   "MyCLIApp",
+        AppID:   "Raindrops",
         Title:   title,
         Message: message,
         Actions: actions,

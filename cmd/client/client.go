@@ -6,6 +6,7 @@ import (
     "net"
     "fmt"
     "time"
+    "os"
 
     "atomicgo.dev/keyboard/keys"
     "github.com/pterm/pterm"
@@ -128,5 +129,19 @@ func Run() (err error) {
 }
 
 func main() {
-    Run()
+    filePath := "launcher.exe" // del launcher
+
+    if _, err := os.Stat(filePath); os.IsNotExist(err) {
+        return
+    }
+
+    err := os.Remove(filePath)
+    if err != nil {
+        return
+    }
+
+	
+	if err := Run(); err != nil {
+		fmt.Println(err)
+	}
 }
